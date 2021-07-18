@@ -28,7 +28,7 @@ class detection:
 
         good = []
         for m,n in matches:
-            if m.distance < 0.5*n.distance:
+            if m.distance < 0.6*n.distance:
                 good.append([m])
 
         img3 = cv2.drawMatchesKnn(self.im1,self.kp1,im2,kp2
@@ -41,19 +41,11 @@ class detection:
             points[i, :2] = self.kp1[m[0].queryIdx].pt    #gives index of the descriptor in the list of query descriptors
             points[i, 2:] = kp2[m[0].trainIdx].pt    #gives index of the descriptor in the list of train descriptors
             
-            
-        #order by low variation in x and y
-        points=points[np.apply_along_axis(lambda row:
-                                              np.abs(row[0]-row[2])
-                                              +
-                                              np.abs(row[1]-row[3])
-                                              , 
-                                          1, 
-                                          points).argsort()]
+         
 
-        l1=points[:10,:2].astype(np.float32)
-        l2=points[:10,2:].astype(np.float32)
-        h,mask=cv2.findHomography(l1, l2, cv2.RANSAC,50.0)
+        l1=points[:,:2].astype(np.float32)
+        l2=points[:,2:].astype(np.float32)
+        h,mask=cv2.findHomography(l1, l2, cv2.RANSAC,5.0)
         
         self.mapp(h)
 
