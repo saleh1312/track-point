@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from detect2 import detection
 
-cap =cv2.VideoCapture('t\\v4.wmv')
+cap =cv2.VideoCapture('v4.wmv')
 
 
 out = cv2.VideoWriter('res.avi',cv2.VideoWriter_fourcc("X", "V", "I", "D"),20, (512,512))
